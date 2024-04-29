@@ -1,0 +1,11 @@
+# IDE Directories
+.vscode
+
+# CMake files
+build/
+Makefile
+
+# SFML Download
+SFML-2.6.1-linux-gcc-64-bit.tar.gz
+SFML-2.6.1
+
