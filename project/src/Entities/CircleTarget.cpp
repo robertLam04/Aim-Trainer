@@ -1,17 +1,45 @@
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
 #include "CircleTarget.h"
 #include "Entity.h"
+#include "HitBox.h"
 
 namespace Entities {
-    CircleTarget::CircleTarget(sf::Vector2f pos, sf::Texture& texture, float radius)
-        : Entity(pos, new sf::CircleShape(radius)) // Initialize the base class Entity
+    CircleTarget::CircleTarget(sf::CircleShape circle, sf::Texture& texture, sf::Vector2f pos)
+        : Entity(pos, std::make_unique<sf::CircleShape>(circle))
+        , _circle(circle)
+        , _hitbox(*this)
+    {}
+
+    /*CircleTarget::CircleTarget(float radius, sf::Texture& texture, sf::Vector2f pos)
+        : Entity(pos, &circle)
+        , circle(radius)
+        , circle_ref(&circle)
+        , hitbox(this)
     {
-        // Set properties of the circle shape
-        sf::CircleShape* circle = static_cast<sf::CircleShape*>(getShape()); // Cast the shape pointer to sf::CircleShape*
-        circle->setPosition(pos);
-        circle->setTexture(&texture);
+        std::cout << "CircleTarget constructor called\n";
+        circle_ref->setTexture(&texture);
+        circle_ref->setOrigin(radius, radius);
     }
+    
+    This does not work because initializer list is not always executed in order
+    Entity constructor must be called before derived class members are intialized
+    
+    */
+
+    void CircleTarget::setTexture(const sf::Texture& texture) {
+        _circle.setTexture(&texture);
+    }
+
+    bool CircleTarget::contains(const sf::Vector2f& point) const {
+        return _hitbox.contains(point);
+    }
+
+    float CircleTarget::getRadius() const {
+        return _circle.getRadius();
+    }
+
 
 } // namespace Entities
 

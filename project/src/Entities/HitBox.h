@@ -2,18 +2,18 @@
 #define HITBOX_H
 
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
+#include "HitBox.h"
 
 namespace Entities {
 
+class CircleTarget;
+
 class HitBox {
 private:
-    sf::FloatRect bounds;
+    CircleTarget& target;
 public:
-    HitBox(Entity* entity);
-    void setHitbox(Entity* entity);
-    bool hit(sf::Vector2f position) const;
-    void printBounds();
+    HitBox(CircleTarget& target);
+    bool contains(const sf::Vector2f& position) const;
 };
 
 }

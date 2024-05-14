@@ -3,11 +3,23 @@
 
 #include "Entity.h"
 #include <SFML/Graphics.hpp>
+#include "HitBox.h"
 
 namespace Entities {
+
 class CircleTarget : public Entity {
+private:
+
+    sf::CircleShape _circle;
+    HitBox _hitbox;
+
 public: 
-    CircleTarget(sf::Vector2f pos, sf::Texture& texture, float radius);
+    CircleTarget(sf::CircleShape circle, sf::Texture& texture, sf::Vector2f pos);
+    //CircleTarget(float radius, sf::Texture& texture, sf::Vector2f pos);
+    void setTexture(const sf::Texture& texture) override;
+    bool contains(const sf::Vector2f& point) const override;
+    float getRadius() const;
+
 };
 
 }

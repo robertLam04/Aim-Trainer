@@ -1,28 +1,22 @@
 #include <SFML/Graphics.hpp>
-#include "HitBox.h"
 #include <iostream>
+#include <cmath>
+
+#include "HitBox.h"
+#include "CircleTarget.h"
 
 namespace Entities {
 
-HitBox::HitBox(Entity* entity) {
-    bounds = entity->getGlobalBounds();
-}
+HitBox::HitBox(CircleTarget& target)
+: target(target)
+{}
 
-void HitBox::setHitbox(Entity* entity) {
-    bounds = entity->getGlobalBounds();
-}
-
-bool HitBox::hit(sf::Vector2f pos) const {
-    return bounds.contains(pos);
-}
-
-void HitBox::printBounds() {
-    // Print the bounds of the HitBox
-    std::cout << "Bounds of HitBox:" << std::endl;
-    std::cout << "Left: " << bounds.left << std::endl;
-    std::cout << "Top: " << bounds.top << std::endl;
-    std::cout << "Width: " << bounds.width << std::endl;
-    std::cout << "Height: " << bounds.height << std::endl;
+bool HitBox::contains(const sf::Vector2f& pos) const {
+    sf::Vector2f origin = target.getPosition();
+    float distance = std::sqrt(std::pow(pos.x - origin.x, 2) + std::pow(pos.y - origin.y, 2));
+    // Adjust the hit range according to your specific requirements
+    float hitRange = target.getBounds().height / 2;
+    return distance <= hitRange;
 }
 
 }

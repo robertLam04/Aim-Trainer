@@ -1,45 +1,38 @@
 #include<SFML/Graphics.hpp>
 #include "Entity.h"
+#include <iostream>
 
 namespace Entities {
 
-    Entity::Entity(sf::Vector2f pos, sf::Shape* shape_ref)
-    : pos(pos) 
-    , shape(shape_ref)
+    Entity::Entity(sf::Vector2f pos, std::unique_ptr<sf::Shape> shape)
+    : shape(std::move(shape))
     {
         setPosition(pos);
-        setBounds();
     }
 
-    void Entity::draw(sf::RenderWindow& w) {
+    void Entity::draw(sf::RenderWindow& w) const {
         w.draw(*shape);
     }
 
     void Entity::setPosition(sf::Vector2f pos) {
-        this->pos = pos;
         shape->setPosition(pos);
     }
 
     void Entity::setPosition(float x, float y) {
-        pos.x = x;
-        pos.y = y;
-        shape->setPosition(pos);
-    }
-
-    void Entity::setBounds() {
-        bounds = shape->getGlobalBounds();
+        shape->setPosition(x, y);
     }
 
     sf::Vector2f Entity::getPosition() const {
-        return pos;
+        return shape->getPosition();
     }
 
-    sf::FloatRect Entity::getGlobalBounds() {
-        return bounds;
+    sf::FloatRect Entity::getBounds() const {
+        return shape->getGlobalBounds();
     }
 
-    sf::Shape* Entity::getShape() {
-        return shape;
+    //Defualt implementation for entities without a hitbox
+    bool Entity::contains(const sf::Vector2f& point) const {
+        return false;
     }
 
 } // namespace Entities
