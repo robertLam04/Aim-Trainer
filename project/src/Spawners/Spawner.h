@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entities/CircleTarget.h"
 #include <spdlog/spdlog.h>
+#include "GameData.h"
 
 namespace Spawners {
 
@@ -18,7 +19,7 @@ private:
     bool running = false;
     
 public:
-    Spawner(sf::Texture& texture);
+    Spawner(GameDataRef _data);
     ~Spawner();
     
     //Initialize starting targets

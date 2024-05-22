@@ -14,9 +14,7 @@ private:
     HitBox _hitbox;
 
 public: 
-    CircleTarget(sf::CircleShape circle, sf::Texture& texture, sf::Vector2f pos);
-    //CircleTarget(float radius, sf::Texture& texture, sf::Vector2f pos);
-    void setTexture(const sf::Texture& texture) override;
+    CircleTarget(sf::CircleShape circle,sf::Vector2f pos);
     bool contains(const sf::Vector2f& point) const override;
     float getRadius() const;
 

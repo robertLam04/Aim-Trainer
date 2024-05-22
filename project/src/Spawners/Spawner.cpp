@@ -1,6 +1,7 @@
 #include "Logger.h"
 #include "Spawner.h"
 #include "Entities/CircleTarget.h"
+#include "GameData.h"
 #include <SFML/Graphics.hpp>
 #include <spdlog/spdlog.h>
 #include <vector>
@@ -11,9 +12,9 @@
 
 namespace Spawners {
 
-    Spawner::Spawner(sf::Texture& texture)
+    Spawner::Spawner(GameDataRef _data)
     : running(true)
-    , texture(texture)
+    , texture(_data->target_texture)
     {}
 
     Spawner::~Spawner() {}
@@ -23,8 +24,8 @@ namespace Spawners {
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> sizeDist(10.0f, 50.0f);
         // Assuming screen size of 800x600
-        std::uniform_real_distribution<float> positionDistX(0.0f, 800.0f);
-        std::uniform_real_distribution<float> positionDistY(0.0f, 600.0f);
+        std::uniform_real_distribution<float> positionDistX(50.0f, 750.0f);
+        std::uniform_real_distribution<float> positionDistY(50.0f, 550.0f);
 
         bool overlaps = false;
         while (targets.size() < nStartingEntities) {
@@ -39,7 +40,7 @@ namespace Spawners {
             // Get random position
             sf::Vector2f position(positionDistX(gen), positionDistY(gen));
             
-            auto candidate = std::make_unique<Entities::CircleTarget>(circle, texture, position);
+            auto candidate = std::make_unique<Entities::CircleTarget>(circle, position);
             console->debug("candidate's position: ({}, {}), candidate's radius: {}", candidate->getPosition().x, candidate->getPosition().y, candidate->getRadius());
 
             bool overlapping = false;
@@ -82,8 +83,8 @@ namespace Spawners {
         std::mt19937 gen(rd());
         std::uniform_real_distribution<float> sizeDist(10.0f, 50.0f);
         // Assuming screen size of 800x600
-        std::uniform_real_distribution<float> positionDistX(0.0f, 750.0f);
-        std::uniform_real_distribution<float> positionDistY(0.0f, 550.0f);
+        std::uniform_real_distribution<float> positionDistX(50.0f, 750.0f);
+        std::uniform_real_distribution<float> positionDistY(50.0f, 550.0f);
 
         if (clock.getElapsedTime().asMilliseconds() >= spawnInterval) {
             clock.restart();
@@ -98,7 +99,7 @@ namespace Spawners {
                 // Get random position
                 sf::Vector2f position(positionDistX(gen), positionDistY(gen));
                 
-                auto candidate = std::make_unique<Entities::CircleTarget>(circle, texture, position);
+                auto candidate = std::make_unique<Entities::CircleTarget>(circle, position);
 
                 bool overlapping = false;
                 for (auto& target : targets) {
