@@ -6,7 +6,7 @@
 #include "HitBox.h"
 
 namespace Entities {
-    CircleTarget::CircleTarget(sf::CircleShape circle, sf::Texture& texture, sf::Vector2f pos)
+    CircleTarget::CircleTarget(sf::CircleShape circle, sf::Vector2f pos)
         : Entity(pos, std::make_unique<sf::CircleShape>(circle))
         , _circle(circle)
         , _hitbox(*this)
@@ -27,10 +27,6 @@ namespace Entities {
     Entity constructor must be called before derived class members are intialized
     
     */
-
-    void CircleTarget::setTexture(const sf::Texture& texture) {
-        _circle.setTexture(&texture);
-    }
 
     bool CircleTarget::contains(const sf::Vector2f& point) const {
         return _hitbox.contains(point);
