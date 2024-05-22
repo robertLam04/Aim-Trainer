@@ -1,8 +1,12 @@
 /*
-Technical debt: 
-    - Try to avoid using pointers over references
-    - Need to be iterable and deleteable 
-    - Notion of smart pointers
+TODO:
+    
+    - Scoring system
+    - Moveable targets (New spawner?)
+    - Crosshair
+
+BUGs:
+
 */
 
 #include "Logger.h"
@@ -12,62 +16,41 @@ Technical debt:
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "Entities/CircleTarget.h"
-#include "Screens/RangeScreen.h"
+#include "Screens/GameScreen.h"
+#include "Screens/MenuScreen.h"
 #include "Spawners/Spawner.h"
+#include "ScreenManager.h"
+#include "GameData.h"
 
 int main() {
 
-    console->set_level(spdlog::level::info);
-    
-    // Create a window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Window");
-    //Load texture from file
-    sf::Texture texture;
-    console->debug("Loading texture");
-    if (!texture.loadFromFile("/home/rjlam55/Aim-Trainer/project/target_image.png")) {
-        // Error handling: texture failed to load
-        return 1; // Exit with error code
-    }
+    console->set_level(spdlog::level::debug);
 
-    //Create the target(s)
-    //TODO: Make pure virtual method hitbox in entity
-    //then use Entity as static type
+    GameDataRef data = std::make_shared<GameData>();
 
-    //Setup screen
-    console->debug("Creating a spawner");
-    Spawners::Spawner* spawner = new Spawners::Spawner(texture);
-    console->debug("Creating range screen");
-    Screens::Screen* screen = new Screens::RangeScreen(&window, spawner);
+    std::unique_ptr<Screens::Screen> initialScreen = std::make_unique<Screens::MenuScreen>(data);
+    ScreenManager screenManager(std::move(initialScreen));
 
-    console->debug("Initializing Screen");
-    screen->init();
-    
     // Main loop
-    while (window.isOpen()) {
-        console->debug("Main Loop");
+    while (data->window.isOpen()) {
         sf::Event event;
         sf::Keyboard keyboard;
        
-        while (window.pollEvent(event)) {
-            console->debug("Polling Event");
-            screen->handleEvents(event);
+        while (data->window.pollEvent(event)) {
+            screenManager.handleEvents(event);
         }
 
         //Clear the window (once per frame)
-        window.clear();
+        data->window.clear();
 
-        screen->update();
+        screenManager.update();
 
-        console->debug("Drawing screen");
-        screen->draw();
+        screenManager.draw();
 
-        console->debug("Displaying screen");
         // Display the window
-        window.display();
+        data->window.display();
 
     }
-    
-    delete screen;
 
     return 0;
 
