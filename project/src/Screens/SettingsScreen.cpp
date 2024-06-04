@@ -103,10 +103,32 @@ namespace Screens {
 
     void SettingsScreen::update() {
         menu_button.update();
+
+        switch (settings.difficulty) {
+            case 1:
+                easy_button.setColor(sf::Color(145, 4, 4));
+                medium_button.setColor(sf::Color::White);
+                hard_button.setColor(sf::Color::White);
+                break;
+            case 2:
+                medium_button.setColor(sf::Color(145, 4, 4));
+                easy_button.setColor(sf::Color::White);
+                hard_button.setColor(sf::Color::White);
+                break;
+            case 3:
+                hard_button.setColor(sf::Color(145, 4, 4));
+                easy_button.setColor(sf::Color::White);
+                medium_button.setColor(sf::Color::White);
+                break;
+            default:
+                break;
+        }
+        
         easy_button.update();
-        medium_button.update();
         hard_button.update();
+        medium_button.update();
     }
+    
 
     std::optional<std::unique_ptr<Screen>> SettingsScreen::getNextScreen() {
         return std::move(next_screen);

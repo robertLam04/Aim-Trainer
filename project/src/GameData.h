@@ -25,7 +25,6 @@ public:
     sf::Texture restart_button;
     sf::Texture close_button;
 
-
     sf::Font title_font;
     
 };

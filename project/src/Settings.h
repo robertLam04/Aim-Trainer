@@ -4,10 +4,12 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "Crosshair.h"
 
 struct Settings {
     //Default difficulty is easy
     int difficulty;
+    CrosshairConfig crosshair;
 
     Settings() : difficulty(1) {}
 
