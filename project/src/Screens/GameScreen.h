@@ -5,7 +5,7 @@
 #include <memory>
 #include <optional>
 
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include "Crosshair.h"
 #include "Spawners/Spawner.h"
 #include "Screen.h"
 #include "Button.h"
@@ -17,9 +17,12 @@ namespace Screens {
 class GameScreen : public Screen {
 private:
     GameDataRef _data;
-    sf::RenderWindow* window;
     Spawners::Spawner* spawner;
     std::optional<std::unique_ptr<Screen>> next_screen;
+
+    sf::Clock clock;
+
+    Crosshair crosshair;
 
     Settings settings;
 

@@ -1,9 +1,9 @@
 /*
 TODO:
-    
     - Scoring system
-    - Moveable targets (New spawner?)
     - Crosshair
+        - Implement customizability in settings screen
+    - Implement some physics spawner?
 
 BUGs:
 
@@ -24,7 +24,7 @@ BUGs:
 
 int main() {
 
-    console->set_level(spdlog::level::debug);
+    //console->set_level(spdlog::level::debug);
 
     GameDataRef data = std::make_shared<GameData>();
 
@@ -53,6 +53,8 @@ int main() {
     }
 
     return 0;
-
+    
 }
+    
+
 

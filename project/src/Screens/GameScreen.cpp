@@ -2,7 +2,8 @@
 #include "GameScreen.h"
 #include "GameData.h"
 #include "Entities/CircleTarget.h"
-#include "Spawners/Spawner.h"
+#include "Spawners/BasicSpawner.h"
+#include "Spawners/EasySpawner.h"
 #include "Logger.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -14,48 +15,65 @@
 namespace Screens {
 
     GameScreen::GameScreen(GameDataRef data, const Settings& settings)
-    : window(&_data->window)
-    , _data(data)
+    : _data(data)
     , next_screen(std::nullopt)
     , settings(settings)
-    {
-        spawner = new Spawners::Spawner(_data);
+    , crosshair()
+    {   
+        console->info("Difficulty: {}", settings.difficulty);
+        if (settings.difficulty == 1) {
+            spawner = new Spawners::BasicSpawner(_data);
+            spawner->init(1);
+        } else if (settings.difficulty == 2 ){
+            spawner = new Spawners::BasicSpawner(_data);
+            spawner->init(2);
+        } else {
+            spawner = new Spawners::EasySpawner(_data);
+            spawner->init(3);
+        }
     }
 
     GameScreen::GameScreen(const GameScreen& paused_screen)
-        : window(paused_screen.window)
-        , _data(paused_screen._data)
+        : _data(paused_screen._data)
         , spawner(paused_screen.spawner)
         , next_screen(std::nullopt)
         , settings(paused_screen.settings)
+        , crosshair(paused_screen.crosshair)
     {}
 
     void GameScreen::init() {
-        console->info("Difficulty: {}", settings.difficulty);
-        if (settings.difficulty == 1) {
-            spawner->init(1);
-        } else if (settings.difficulty == 2 ){
-            spawner->init(2);
+
+        clock.restart();
+        
+        sf::Image cursorImage = crosshair.getTexture().copyToImage();
+        sf::Vector2u imageSize = cursorImage.getSize();
+        sf::Cursor cursor;
+        if (cursor.loadFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(imageSize.x / 2, imageSize.y / 2))) {
+            _data->window.setMouseCursor(cursor);
         } else {
-            spawner->init(3);
+            console->error("Failed to load cursor");
         }
         
     }
 
     void GameScreen::draw() const {
-        window->clear(sf::Color(120,56,94));
-        spawner->draw(window);
+        this->_data->window.clear(sf::Color(0,0,0));
+        spawner->draw(&this->_data->window);
     }
 
     void GameScreen::handleEvents(sf::Event event) {
+
+        sf::Vector2f mousePosf = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
+        sf::Cursor defaultCursor;
+
         switch (event.type) {
             case sf::Event::Closed:
-                window->close();
+                defaultCursor.loadFromSystem(sf::Cursor::Arrow);
+                _data->window.setMouseCursor(defaultCursor);
+                this->_data->window.close();
                 break;
             case sf::Event::MouseButtonPressed:
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-
-                    sf::Vector2f mousePosf = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
 
                     //TODO: use Quadtrees instead of a vector to store entities
                     auto* targets = spawner->getTargets();
@@ -82,6 +100,11 @@ namespace Screens {
     }
 
     void GameScreen::update() {
+        float deltaTime = clock.restart().asSeconds();  // Get elapsed time and restart clock
+        auto* targets = spawner->getTargets();
+        for (auto& target : *targets) {
+            target->update(deltaTime);  // Pass elapsed time to update
+        }
         spawner->update();
     }
 

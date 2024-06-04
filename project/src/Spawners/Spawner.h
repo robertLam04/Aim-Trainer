@@ -3,44 +3,28 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include "Entities/CircleTarget.h"
-#include <spdlog/spdlog.h>
+#include "Entities/Entity.h"
 #include "GameData.h"
+#include <vector>
+#include <memory>
 
 namespace Spawners {
 
 class Spawner {
-private:
-    sf::Texture& texture;
-    sf::Clock clock;
-    float spawnInterval = 600.0f;
-    std::vector<std::unique_ptr<Entities::CircleTarget>> targets;
-    
-    bool running = false;
-    
 public:
-    Spawner(GameDataRef _data);
-    ~Spawner();
+    virtual ~Spawner() = default;
+
+    virtual void init(int nStartingEntities) = 0;
+    virtual void deleteEntity(std::vector<std::unique_ptr<Entities::Entity>>::iterator target) = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
+    virtual void update() = 0;
+    virtual void draw(sf::RenderWindow* window) const = 0;
+    virtual bool isOverlapping(const Entities::Entity& targetA, const Entities::Entity& targetB) const = 0;
+    virtual std::vector<std::unique_ptr<Entities::Entity>>* getTargets() = 0;
     
-    //Initialize starting targets
-    void init(int nStartingEntities);
-
-    void deleteEntity(std::vector<std::unique_ptr<Entities::CircleTarget>>::iterator target);
-    
-    void start();
-    void stop();
-
-    void update();
-    void draw(sf::RenderWindow* window) const;
-
-    bool isOverlapping(const Entities::CircleTarget& targetA, const Entities::CircleTarget& targetB) const;
-
-    std::vector<std::unique_ptr<Entities::CircleTarget>>* getTargets();
-
 };
 
-
 }
-
 
 #endif //SPAWNER_H

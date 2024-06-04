@@ -3,6 +3,7 @@
 GameData::GameData() {
 
     window.create(sf::VideoMode(800, 600), "Game Window");
+    window.setMouseCursorVisible(false);
     target_texture.loadFromFile("/home/rjlam55/Aim-Trainer/project/Assets/target_image.png");
     pause_button.loadFromFile("/home/rjlam55/Aim-Trainer/project/Assets/pause_button_white.png");
     play_button.loadFromFile("/home/rjlam55/Aim-Trainer/project/Assets/play_button.png");

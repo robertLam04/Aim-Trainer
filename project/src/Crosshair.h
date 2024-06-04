@@ -11,10 +11,10 @@ struct CrosshairConfig {
 
     //Default constructor
     CrosshairConfig()
-    : offset(6.0f)
-    , width(4.0f)
-    , length(6.0f)
-    , color(sf::Color::Green)
+    : offset(8.0f)
+    , width(3.0f)
+    , length(6.90f)
+    , color(sf::Color(0, 255, 0))
     {}
 
 };

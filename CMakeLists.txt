@@ -12,7 +12,6 @@ include_directories("${SOURCE_DIR}")
 set(SOURCE_FILES
     "${SOURCE_DIR}/Entities/CircleTarget.cpp"
     "${SOURCE_DIR}/Entities/CircleTarget.h"
-    "${SOURCE_DIR}/Entities/Entity.cpp"
     "${SOURCE_DIR}/Entities/Entity.h"
     "${SOURCE_DIR}/Entities/HitBox.cpp"
     "${SOURCE_DIR}/Entities/HitBox.h"
@@ -21,7 +20,10 @@ set(SOURCE_FILES
     "${SOURCE_DIR}/Screens/GameScreen.cpp"
     "${SOURCE_DIR}/main.cpp"
     "${SOURCE_DIR}/Spawners/Spawner.h"
-    "${SOURCE_DIR}/Spawners/Spawner.cpp"
+    "${SOURCE_DIR}/Spawners/BasicSpawner.cpp"
+    "${SOURCE_DIR}/Spawners/BasicSpawner.h"
+    "${SOURCE_DIR}/Spawners/EasySpawner.cpp"
+    "${SOURCE_DIR}/Spawners/EasySpawner.h"
     "${SOURCE_DIR}/Logger.h"
     "${SOURCE_DIR}/Logger.cpp"
     "${SOURCE_DIR}/GameData.h"
@@ -37,6 +39,9 @@ set(SOURCE_FILES
     "${SOURCE_DIR}/Screens/SettingsScreen.h"
     "${SOURCE_DIR}/Screens/SettingsScreen.cpp"
     "${SOURCE_DIR}/Settings.h"
+    "${SOURCE_DIR}/Crosshair.h"
+    "${SOURCE_DIR}/Crosshair.cpp"
+    "${SOURCE_DIR}/Velocity.h"
 )
 
 # Define the executable target
