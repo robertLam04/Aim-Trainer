@@ -11,11 +11,11 @@
 namespace Spawners {
 
 class Spawner {
+
 public:
     virtual ~Spawner() = default;
-
     virtual void init(int nStartingEntities) = 0;
-    virtual void deleteEntity(std::vector<std::unique_ptr<Entities::Entity>>::iterator target) = 0;
+    virtual void deleteEntity(int entityId) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
     virtual void update() = 0;

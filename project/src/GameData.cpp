@@ -20,4 +20,5 @@ GameData::GameData() {
     // Rollbox by Owlkingproject
     title_font.loadFromFile("/home/rjlam55/Aim-Trainer/project/Assets/RollboxRegular-jE2lv.ttf");
     
+    
 }

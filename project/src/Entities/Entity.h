@@ -9,6 +9,7 @@ namespace Entities {
 
 class Entity {
 public:
+
     virtual ~Entity() = default;
 
     virtual void draw(sf::RenderWindow& w) const = 0;
@@ -21,7 +22,9 @@ public:
     virtual Velocity getVelocity() const = 0;
     virtual bool contains(const sf::Vector2f& point) const = 0;
     virtual void update(float time) = 0;
-    virtual std::vector<sf::Vector2f> getKeyPoints() const = 0;  // New method
+    virtual bool isExpired() const = 0;
+    virtual std::vector<sf::Vector2f> getKeyPoints() const = 0;
+    virtual int getId() const = 0;
 };
 
 }

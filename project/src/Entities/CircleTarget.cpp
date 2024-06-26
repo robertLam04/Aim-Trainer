@@ -5,12 +5,15 @@
 
 namespace Entities {
 
-CircleTarget::CircleTarget(sf::CircleShape circle, sf::Vector2f pos, Velocity velocity)
+CircleTarget::CircleTarget(sf::CircleShape circle, sf::Vector2f pos, Velocity velocity, float lifetime, int id)
     : _circle(circle)
     , velo(velocity)
     , _hitbox(*this)
+    , lifetime(lifetime)
+    , id(id)
 {
     _circle.setPosition(pos);
+    clock.restart();
 }
 
 void CircleTarget::draw(sf::RenderWindow& w) const {
@@ -50,6 +53,9 @@ bool CircleTarget::contains(const sf::Vector2f& point) const {
 }
 
 void CircleTarget::update(float time) {
+
+    age += time * 1000.0f;
+
     float speed = velo.getMagnitude();
     
     float distance = speed * time;
@@ -66,11 +72,15 @@ void CircleTarget::update(float time) {
     this->setPosition(position);
 }
 
+bool CircleTarget::isExpired() const {
+    return age >= lifetime;
+}
+
 std::vector<sf::Vector2f> CircleTarget::getKeyPoints() const {
     std::vector<sf::Vector2f> points;
     sf::Vector2f center = getPosition();
     float radius = getRadius();
-    int numPoints = 36;  // Number of points around the circle
+    int numPoints = 10;  // Number of points around the circle
 
     for (int i = 0; i < numPoints; ++i) {
         float angle = i * (2 * M_PI / numPoints);
@@ -82,6 +92,10 @@ std::vector<sf::Vector2f> CircleTarget::getKeyPoints() const {
 
 float CircleTarget::getRadius() const {
     return _circle.getRadius();
+}
+
+int CircleTarget::getId() const {
+    return id;
 }
 
 } // namespace Entities

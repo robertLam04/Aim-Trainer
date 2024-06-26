@@ -24,6 +24,8 @@ set(SOURCE_FILES
     "${SOURCE_DIR}/Spawners/BasicSpawner.h"
     "${SOURCE_DIR}/Spawners/EasySpawner.cpp"
     "${SOURCE_DIR}/Spawners/EasySpawner.h"
+    "${SOURCE_DIR}/Spawners/MediumSpawner.cpp"
+    "${SOURCE_DIR}/Spawners/MediumSpawner.h"
     "${SOURCE_DIR}/Logger.h"
     "${SOURCE_DIR}/Logger.cpp"
     "${SOURCE_DIR}/GameData.h"
@@ -42,7 +44,13 @@ set(SOURCE_FILES
     "${SOURCE_DIR}/Crosshair.h"
     "${SOURCE_DIR}/Crosshair.cpp"
     "${SOURCE_DIR}/Velocity.h"
+    "${SOURCE_DIR}/SpatialHash.h"
 )
+
+# Add AddressSanitizer flags
+#if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
+#endif()
 
 # Define the executable target
 add_executable(my_executable ${SOURCE_FILES})

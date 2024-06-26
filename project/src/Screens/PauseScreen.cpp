@@ -62,7 +62,6 @@ namespace Screens {
                     if (resume_button.clickable() && resume_button.contains(mousePosf)) {
                         resume_button.click();
                         console->info("Resuming game");
-                        console->debug("Creating new GameScreen from paused_screen");
                         next_screen = std::make_unique<GameScreen>(paused_screen);
                         console->debug("New GameScreen created successfully");    
                     }

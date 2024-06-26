@@ -12,21 +12,25 @@ private:
     sf::Clock clock;
     float spawnInterval = 600.0f;
     std::vector<std::unique_ptr<Entities::Entity>> targets;
+    int targetId = 0;
     
     bool running = false;
+
+    GameDataRef _data;
     
 public:
     BasicSpawner(GameDataRef _data);
     ~BasicSpawner();
 
     void init(int nStartingEntities) override;
-    void deleteEntity(std::vector<std::unique_ptr<Entities::Entity>>::iterator target) override;
+    void deleteEntity(int entityId) override;
     void start() override;
     void stop() override;
     void update() override;
     void draw(sf::RenderWindow* window) const override;
     bool isOverlapping(const Entities::Entity& targetA, const Entities::Entity& targetB) const override;
     std::vector<std::unique_ptr<Entities::Entity>>* getTargets() override;
+
 };
 
 }
