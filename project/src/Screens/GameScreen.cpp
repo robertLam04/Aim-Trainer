@@ -4,6 +4,7 @@
 #include "Entities/CircleTarget.h"
 #include "Spawners/BasicSpawner.h"
 #include "Spawners/EasySpawner.h"
+#include "Spawners/MediumSpawner.h"
 #include "Logger.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -24,22 +25,23 @@ namespace Screens {
         if (settings.difficulty == 1) {
             spawner = new Spawners::BasicSpawner(_data);
             spawner->init(1);
-        } else if (settings.difficulty == 2 ){
-            spawner = new Spawners::BasicSpawner(_data);
+        } else if (settings.difficulty == 2) {
+            spawner = new Spawners::EasySpawner(_data);
             spawner->init(2);
         } else {
-            spawner = new Spawners::EasySpawner(_data);
+            spawner = new Spawners::MediumSpawner(_data);
             spawner->init(3);
         }
     }
 
     GameScreen::GameScreen(const GameScreen& paused_screen)
-        : _data(paused_screen._data)
-        , spawner(paused_screen.spawner)
-        , next_screen(std::nullopt)
-        , settings(paused_screen.settings)
-        , crosshair(paused_screen.crosshair)
+    : _data(paused_screen._data)
+    , spawner(paused_screen.spawner)
+    , next_screen(std::nullopt)
+    , settings(paused_screen.settings)
+    , crosshair(paused_screen.crosshair)
     {}
+
 
     void GameScreen::init() {
 
@@ -90,7 +92,7 @@ namespace Screens {
                 break;
             case sf::Event::KeyPressed: 
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-                    next_screen = std::move(std::make_unique<PauseScreen>(_data, *this));
+                    next_screen = std::make_unique<PauseScreen>(_data, *this);
                     console->info("Game paused");
                 }
                 break;
@@ -100,10 +102,10 @@ namespace Screens {
     }
 
     void GameScreen::update() {
-        float deltaTime = clock.restart().asSeconds();  // Get elapsed time and restart clock
+        float deltaTime = clock.restart().asSeconds();
         auto* targets = spawner->getTargets();
         for (auto& target : *targets) {
-            target->update(deltaTime);  // Pass elapsed time to update
+            target->update(deltaTime);
         }
         spawner->update();
     }

@@ -4,6 +4,9 @@ TODO:
     - Crosshair
         - Implement customizability in settings screen
     - Implement some physics spawner?
+    - Target Collision
+        - Quad trees?
+        - rectangular hitbox estimation (for complex shapes)?
 
 BUGs:
 
@@ -22,9 +25,9 @@ BUGs:
 #include "ScreenManager.h"
 #include "GameData.h"
 
-int main() {
+/*int main() {
 
-    //console->set_level(spdlog::level::debug);
+    console->set_level(spdlog::level::debug);
 
     GameDataRef data = std::make_shared<GameData>();
 
@@ -55,6 +58,36 @@ int main() {
     return 0;
     
 }
+*/
+
+int main() {
+    GameDataRef data = std::make_shared<GameData>();
+    std::unique_ptr<Screens::Screen> initialScreen = std::make_unique<Screens::MenuScreen>(data);
+    ScreenManager screenManager(std::move(initialScreen));
+     while (data->window.isOpen()) {
+        sf::Event event;
+        sf::Keyboard keyboard;
+       
+        while (data->window.pollEvent(event)) {
+            screenManager.handleEvents(event);
+        }
+
+        //Clear the window (once per frame)
+        data->window.clear();
+
+        screenManager.update();
+
+        screenManager.draw();
+
+        // Display the window
+        data->window.display();
+
+    }
+
+    return 0;
+}
+
+
     
 
 
