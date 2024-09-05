@@ -1,21 +1,34 @@
-#pragma once
+#ifndef SCREENMANAGER_H
+#define SCREENMANAGER_H
 
-#include "Screens/Screen.h"
-#include <map>
 #include <memory>
-#include <string>
+#include <stack>
+#include <unordered_map>
+#include <functional>
+#include "Settings.h"
+#include "ScreenState.h"
+#include "Screens/Screen.h"
+#include "GameData.h"
+#include "Logger.h"
 
 class ScreenManager {
-private:
-    std::map<std::string, std::unique_ptr<Screens::Screen>> screens;
-    std::unique_ptr<Screens::Screen> currentScreen;
-
 public:
-    ScreenManager(std::unique_ptr<Screens::Screen> start_screen);
-    ~ScreenManager() = default;
+    ScreenManager(ScreenState initialState, GameDataRef _data, Settings settings);
 
     void handleEvents(sf::Event event);
     void update();
     void draw() const;
-    
+    void pushState(ScreenState newState);
+    void popState();
+
+private:
+    std::unique_ptr<Screens::Screen> createState(ScreenState state);
+
+    std::stack<std::unique_ptr<Screens::Screen>> stateStack;
+    ScreenState currentState;
+
+    Settings settings;
+    GameDataRef _data;
 };
+
+#endif // SCREENMANAGER_H

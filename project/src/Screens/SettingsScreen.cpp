@@ -8,7 +8,7 @@ namespace Screens {
     SettingsScreen::SettingsScreen(GameDataRef data, Settings& settings) 
     : _data(data)
     , window(&_data->window)
-    , next_screen(std::nullopt)
+    , next_screen(ScreenState::Settings)
     , settings(settings)
     {}
 
@@ -54,6 +54,8 @@ namespace Screens {
 
     }
 
+    void SettingsScreen::onExit() {}
+
     void SettingsScreen::draw() const {
         window->clear(sf::Color(0, 0, 0));
         window->draw(title);
@@ -76,7 +78,7 @@ namespace Screens {
                     if (menu_button.clickable() && menu_button.contains(mousePosf)) {
                         menu_button.click();
                         settings.saveSettings("/home/rjlam55/Aim-Trainer/project/Settings.txt");
-                        next_screen = std::make_unique<MenuScreen>(_data);
+                        next_screen = ScreenState::MainMenu;
                     }
 
                     if (easy_button.clickable() && easy_button.contains(mousePosf)) {
@@ -130,8 +132,12 @@ namespace Screens {
     }
     
 
-    std::optional<std::unique_ptr<Screen>> SettingsScreen::getNextScreen() {
-        return std::move(next_screen);
+    ScreenState SettingsScreen::getNextScreen() {
+        return next_screen;
+    }
+
+    ScreenState SettingsScreen::getThisScreen() {
+        return ScreenState::Settings;
     }
 
 }

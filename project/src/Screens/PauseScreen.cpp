@@ -7,11 +7,11 @@
 
 namespace Screens {
 
-    PauseScreen::PauseScreen(GameDataRef data, GameScreen paused_screen) 
+    PauseScreen::PauseScreen(GameDataRef data) 
     : _data(data)
     , window(&_data->window)
-    , next_screen(std::nullopt)
-    , paused_screen(paused_screen)
+    , next_screen(ScreenState::Pause)
+    
     {}
 
     void PauseScreen::init() {
@@ -41,6 +41,8 @@ namespace Screens {
 
     }
 
+    void PauseScreen::onExit() {}
+
     void PauseScreen::draw() const {
         window->clear(sf::Color(0,0,0));
         window->draw(title);
@@ -62,20 +64,20 @@ namespace Screens {
                     if (resume_button.clickable() && resume_button.contains(mousePosf)) {
                         resume_button.click();
                         console->info("Resuming game");
-                        next_screen = std::make_unique<GameScreen>(paused_screen);
+                        next_screen = ScreenState::GameResume;
                         console->debug("New GameScreen created successfully");    
                     }
 
                     if (restart_button.clickable() && restart_button.contains(mousePosf)) {
                         restart_button.click();
                         console->info("Restarting");
-                        next_screen = std::make_unique<GameScreen>(_data, paused_screen.getSettings());
+                        next_screen = ScreenState::Game;
                     }
 
                     if (exit_button.clickable() && exit_button.contains(mousePosf)) {
                         exit_button.click();
                         console->info("Exiting to menu");
-                        next_screen = std::make_unique<MenuScreen>(_data);
+                        next_screen = ScreenState::MainMenu;
                     }
                 }
                 break;
@@ -90,8 +92,12 @@ namespace Screens {
         exit_button.update();
     }
 
-    std::optional<std::unique_ptr<Screen>> PauseScreen::getNextScreen() {
-        return std::move(next_screen);
+    ScreenState PauseScreen::getNextScreen() {
+        return next_screen;
+    }
+
+    ScreenState PauseScreen::getThisScreen() {
+        return ScreenState::Pause;
     }
 
 }
