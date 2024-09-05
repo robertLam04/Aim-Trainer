@@ -2,7 +2,7 @@
 #define SCREEN_H
 
 #include <SFML/Graphics.hpp>
-#include <optional>
+#include "ScreenState.h"
 
 namespace Screens {
 
@@ -15,13 +15,17 @@ public:
 
     virtual void init() = 0;
 
+    virtual void onExit() = 0;
+
     virtual void draw() const = 0;
 
     virtual void handleEvents(sf::Event event) = 0;
 
     virtual void update() = 0;
 
-    virtual std::optional<std::unique_ptr<Screen>> getNextScreen() = 0;
+    virtual ScreenState getNextScreen() = 0;
+
+    virtual ScreenState getThisScreen() = 0;
 
 };
 

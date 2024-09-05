@@ -8,6 +8,7 @@
 #include "GameScreen.h"
 #include "Button.h"
 #include "GameData.h"
+#include "ScreenState.h"
 
 namespace Screens {
 
@@ -20,17 +21,18 @@ private:
     Button exit_button;
     Button restart_button;
 
-    std::optional<std::unique_ptr<Screen>> next_screen;
+    ScreenState next_screen;
 
-    GameScreen paused_screen;
 
 public:
 
-    PauseScreen(GameDataRef data, GameScreen paused_screen);
+    PauseScreen(GameDataRef data);
 
     ~PauseScreen() override = default;
     
     void init() override;
+
+    void onExit() override;
 
     void draw() const override;
 
@@ -38,7 +40,9 @@ public:
 
     void update() override;
 
-    std::optional<std::unique_ptr<Screen>> getNextScreen() override;
+    ScreenState getNextScreen() override;
+
+    ScreenState getThisScreen() override;
 
 };
 

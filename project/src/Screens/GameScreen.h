@@ -11,14 +11,15 @@
 #include "Button.h"
 #include "GameData.h"
 #include "Settings.h"
+#include "ScreenState.h"
 
 namespace Screens {
 
 class GameScreen : public Screen {
 private:
     GameDataRef _data;
-    Spawners::Spawner* spawner;
-    std::optional<std::unique_ptr<Screen>> next_screen;
+    std::unique_ptr<Spawners::Spawner> spawner;
+    ScreenState next_screen;
 
     sf::Clock clock;
 
@@ -35,15 +36,17 @@ public:
     
     void init() override;
 
+    void onExit() override;
+
     void draw() const override;
 
     void handleEvents(sf::Event event) override;
 
     void update() override;
 
-    const Settings& getSettings();
+    ScreenState getNextScreen() override;
 
-    std::optional<std::unique_ptr<Screen>> getNextScreen() override;
+    ScreenState getThisScreen() override;
 
 };
 

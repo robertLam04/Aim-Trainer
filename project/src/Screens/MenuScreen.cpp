@@ -8,40 +8,44 @@ namespace Screens {
     MenuScreen::MenuScreen(GameDataRef data) 
     : _data(data)
     , window(&_data->window)
-    , next_screen(std::nullopt)
-    {
-        settings.loadSettings("/home/rjlam55/Aim-Trainer/project/Settings.txt");
-    }
+    , next_screen(ScreenState::MainMenu)
+    {}
 
     void MenuScreen::init() {
 
-        int difficulty = settings.difficulty;
-        console->info("difficulty {}", difficulty);
+        console->debug("Initializing MenuScreen");
 
         title.setString("Aim Trainer");
         title.setFillColor(sf::Color(135, 206, 235));
         title.setOutlineThickness(0.5f);
         title.setFont(_data->title_font);
         title.setCharacterSize(60);
-        title.setOrigin(title.getLocalBounds().width / 2, title.getLocalBounds().height /2);
+        title.setOrigin(title.getLocalBounds().width / 2, title.getLocalBounds().height / 2);
         title.setPosition(
             _data->window.getSize().x / 2,
             _data->window.getSize().y / 2 - 110.0f
         );
+        console->debug("Title initialized");
 
         play_button = Button(sf::Vector2f(_data->window.getSize().x / 2,
             _data->window.getSize().y / 2 - 25.0f), _data->play_button);
         play_button.setScale(0.2f, 0.2f);
+        console->debug("Play button initialized");
 
         settings_button = Button(sf::Vector2f(_data->window.getSize().x / 2,
             _data->window.getSize().y / 2 + 25.0f), _data->settings_button);
         settings_button.setScale(0.2f, 0.2f);
+        console->debug("Settings button initialized");
 
         exit_button = Button(sf::Vector2f(_data->window.getSize().x / 2,
             _data->window.getSize().y / 2 + 75.0f), _data->close_button);
         exit_button.setScale(0.2f, 0.2f);
+        console->debug("Exit button initialized");
 
+        console->debug("MenuScreen initialization complete");
     }
+
+    void MenuScreen::onExit() {}
 
     void MenuScreen::draw() const {
         window->clear(sf::Color(206, 154, 245));
@@ -64,13 +68,13 @@ namespace Screens {
                     if (play_button.clickable() && play_button.contains(mousePosf)) {
                         play_button.click();
                         console->info("Playing game");
-                        next_screen = std::make_unique<GameScreen>(_data, settings);
+                        next_screen = ScreenState::Game;
                     }
 
                     if (settings_button.clickable() && settings_button.contains(mousePosf)) {
                         settings_button.click();
                         console->info("Creating settings screen");
-                        next_screen = std::make_unique<SettingsScreen>(_data, settings);
+                        next_screen = ScreenState::Settings;
                     }
 
                     if (exit_button.clickable() && exit_button.contains(mousePosf)) {
@@ -81,7 +85,7 @@ namespace Screens {
                 break;
             default:
                 break;
-            }
+        }
     }
 
     void MenuScreen::update() {
@@ -90,8 +94,12 @@ namespace Screens {
         exit_button.update();
     }
 
-    std::optional<std::unique_ptr<Screen>> MenuScreen::getNextScreen() {
-        return std::move(next_screen);
+    ScreenState MenuScreen::getNextScreen() {
+        return next_screen;
+    }
+
+    ScreenState MenuScreen::getThisScreen() {
+        return ScreenState::MainMenu;
     }
 
 }

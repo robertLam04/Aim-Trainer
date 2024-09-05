@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "GameData.h"
 #include "Settings.h"
+#include "ScreenState.h"
 
 namespace Screens {
 
@@ -23,7 +24,7 @@ namespace Screens {
         Button settings_button;
         Button exit_button;
 
-        std::optional<std::unique_ptr<Screen>> next_screen;
+        ScreenState next_screen;
 
         Settings settings;
 
@@ -35,13 +36,17 @@ namespace Screens {
         
         void init() override;
 
+        void onExit() override;
+
         void draw() const override;
 
         void handleEvents(sf::Event event) override;
 
         void update() override;
 
-        std::optional<std::unique_ptr<Screen>> getNextScreen() override;
+        ScreenState getNextScreen() override;
+
+        ScreenState getThisScreen() override;
 
     };
 

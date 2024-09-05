@@ -2,6 +2,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(aim_trainer)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 # Set the source directory
 set(SOURCE_DIR "${PROJECT_SOURCE_DIR}/project/src")
 
@@ -20,12 +22,7 @@ set(SOURCE_FILES
     "${SOURCE_DIR}/Screens/GameScreen.cpp"
     "${SOURCE_DIR}/main.cpp"
     "${SOURCE_DIR}/Spawners/Spawner.h"
-    "${SOURCE_DIR}/Spawners/BasicSpawner.cpp"
-    "${SOURCE_DIR}/Spawners/BasicSpawner.h"
-    "${SOURCE_DIR}/Spawners/EasySpawner.cpp"
-    "${SOURCE_DIR}/Spawners/EasySpawner.h"
-    "${SOURCE_DIR}/Spawners/MediumSpawner.cpp"
-    "${SOURCE_DIR}/Spawners/MediumSpawner.h"
+    "${SOURCE_DIR}/Spawners/Spawner.cpp"
     "${SOURCE_DIR}/Logger.h"
     "${SOURCE_DIR}/Logger.cpp"
     "${SOURCE_DIR}/GameData.h"
@@ -45,6 +42,7 @@ set(SOURCE_FILES
     "${SOURCE_DIR}/Crosshair.cpp"
     "${SOURCE_DIR}/Velocity.h"
     "${SOURCE_DIR}/SpatialHash.h"
+    "${SOURCE_DIR}/ScreenState.h"
 )
 
 # Add AddressSanitizer flags
