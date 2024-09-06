@@ -1,36 +1,36 @@
 # Simple-Aim-Trainer
 
-- Author:
-  - [Robert,Lam](rjlam2004@gmail.com)
+## Author:
+**Robert Lam**  
+Email: [rjlam2004@gmail.com](mailto:rjlam2004@gmail.com)
 
-## Product Description
+## Product Description:
+An aim trainer, built using C++, SFML, and CMake. Designed to help improve users' aiming skills with a mouse.
 
-This product is a very basic aim trainer, designed to help improve users' aiming skills for games or other activities that require precision, speed and accuracy.
+## Learning Objectives:
+- Develop basic game mechanics such as target spawning & movement, screen state management, and collision detection.
+- Design a graphical user interface (GUI) for a smooth user experience.
+- Apply design patterns, good abstraction & OOP to make the product maintainable and scalable.
+- Learn **C++**, **CMake**, and **SFML**.
 
-### Learning Objectives & Goals
-
-The aim of this project is to provide a simple and intuitive user interface with clean graphics and solid performance (~30-60 fps) 
-
-The learning objectives include:
-
-- Developing basic game mechanics such as target spawning, movement, and user interaction.
-- Implementing user input handling for aiming and shooting.
-- Creating a scoring system to track users' performance and progress.
-- Designing a graphical user interface (GUI) for a smooth and engaging user experience.
-- Applying principles software design to make the product maintainble and extensible
-- Learn the basic syntax of C++ (new language)
-
-## How to compile, run and deploy
-
-To compile the project, you'll need a C++ compiler such as g++ on Linux or macOS, or MinGW on Windows. Navigate to the project directory in your terminal and use the following command:
+## How to Play
 
 ```bash
-g++ -o aim_trainer main.cpp
-```
+# 1. Clone the Repository:
+git clone <repository-url>
+cd Aim-Trainer
 
-Once the project is compiled, you can run the executable file from the terminal using the following command:
+# 2. Install Dependencies:
+sudo apt update
+sudo apt install cmake
+sudo apt install libsfml-dev
+git submodule update --init --recursive
 
-./aim_trainer
+# 3. Create a Build Directory in the Top Level:
+mkdir build
+cd build
 
-Feel free to customize the content further to better suit your project's specific details and requirements. Let me know if you need any further assistance!
-
+# 4. Compile and Run:
+cmake ..
+make
+./my_executable
