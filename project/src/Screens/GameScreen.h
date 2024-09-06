@@ -24,6 +24,7 @@ private:
     sf::Clock clock;
 
     Crosshair crosshair;
+    sf::Cursor cursor;
 
     Settings settings;
 

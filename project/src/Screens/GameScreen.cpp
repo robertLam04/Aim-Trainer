@@ -39,7 +39,6 @@ namespace Screens {
         
         sf::Image cursorImage = crosshair.getTexture().copyToImage();
         sf::Vector2u imageSize = cursorImage.getSize();
-        sf::Cursor cursor;
         if (cursor.loadFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(imageSize.x / 2, imageSize.y / 2))) {
             _data->window.setMouseCursor(cursor);
         } else {
