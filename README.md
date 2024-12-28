@@ -1,9 +1,5 @@
 # Simple-Aim-Trainer
 
-## Author:
-**Robert Lam**  
-Email: [rjlam2004@gmail.com](mailto:rjlam2004@gmail.com)
-
 ## Product Description:
 An aim trainer, built using C++, SFML, and CMake. Designed to help improve users' aiming skills with a mouse.
 
